@@ -1,0 +1,24 @@
+<head>
+    <title>sampleApp</title>
+    <script src="public/js/1self.js" type="javascript"></script>
+</head>
+
+<body>
+<div class="heading">Track your habits</div>
+
+{{> habits}}
+
+</body>
+
+<template name="habits">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-10 col-sm-10 col-lg-10">
+                <div id="smoke">Smoked a cigarette {{counter}} times today</div>
+            </div>
+            <div class="col-xs-2 col-sm-2 col-lg-2">
+                <a href="#" class="glyphicon glyphicon-signal"></a>
+            </div>
+        </div>
+    </div>
+</template>

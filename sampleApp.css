@@ -4,21 +4,29 @@ body {
     max-width: 768px;
     margin: 0 auto;
     font-size: 16px;
-    background: lightgrey;
+    background: #343838;
 }
 
 .container {
     width: 100%;
+    background: #f1faff;
     font-size: 3em;
 }
 
 .row {
-    border: 2px solid #808080;
+    padding: 0.2em 0.2em;
 }
 
 .heading {
-    color: darkred;
+    background: #005F6B;
+    color: white;
     text-align: center;
     width: 100%;
     font-size: 4em;
+    font-weight: bold;
+    padding: 0.5em 0em;
+}
+
+#smoke, #viz {
+    line-height: 3em;
 }

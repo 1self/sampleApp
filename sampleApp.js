@@ -1,6 +1,4 @@
 if (Meteor.isClient) {
-    // counter starts at 0
-    Session.setDefault("counter", 0);
 
     var config = {
         appId: "abc",
@@ -24,15 +22,8 @@ if (Meteor.isClient) {
         }
     });
 
-    Template.habits.helpers({
-        counter: function () {
-            return Session.get("counter");
-        }
-    });
-
     Template.habits.events({
         'click #smoke': function () {
-            //send event to 1self
             var event = {
                 "dateTime": moment(),
                 "source": config.appName,
@@ -44,8 +35,6 @@ if (Meteor.isClient) {
             oneself.send(event, function () {
                 console.info("Event logged");
             });
-            // increment the counter when button is clicked
-            Session.set("counter", Session.get("counter") + 1);
         },
         'click #viz': function () {
             var url = oneself.objectTags(["self", "cigarette"])
@@ -57,8 +46,6 @@ if (Meteor.isClient) {
             window.location = url;
         }
     });
-
-
 }
 
 if (Meteor.isServer) {

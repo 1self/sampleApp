@@ -11,7 +11,7 @@ if (Meteor.isClient) {
     Meteor.startup(function () {
         if (window.localStorage.streamId === undefined) {
             console.info("registering stream.");
-            oneself.registerStream(function (stream) {
+                oneself.registerStream(function (stream) {
                 console.info(JSON.stringify(stream));
                 window.localStorage.streamId = stream.streamid;
                 window.localStorage.readToken = stream.readToken;
@@ -30,7 +30,7 @@ if (Meteor.isClient) {
                 "dateTime": dateTime,
                 "source": config.appName,
                 "version": config.appVersion,
-                "objectTags": ["self", "cigarette"],
+                "objectTags": ["tobacco", "cigarette"],
                 "actionTags": ["smoke"],
                 "properties": {
                     "total": parseInt(cigarettesSmoked)
@@ -41,7 +41,7 @@ if (Meteor.isClient) {
                 "dateTime": dateTime,
                 "source": config.appName,
                 "version": config.appVersion,
-                "objectTags": ["self", "beer"],
+                "objectTags": ["alcohol", "beer"],
                 "actionTags": ["drink"],
                 "properties": {
                     "volume": parseInt(beerDrank)
@@ -52,7 +52,7 @@ if (Meteor.isClient) {
                 "dateTime": dateTime,
                 "source": config.appName,
                 "version": config.appVersion,
-                "objectTags": ["self", "chips"],
+                "objectTags": ["food", "potato", "carbs", "chips"],
                 "actionTags": ["eat"],
                 "properties": {
                     "volume": parseInt(chipsEaten)

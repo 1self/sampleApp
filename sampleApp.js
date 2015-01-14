@@ -27,7 +27,6 @@ if (Meteor.isClient) {
             var cigarettesSmoked = $("input[name='cigarettes']").val();
             var dateTime = moment();
             var smokeEvent = {
-                "dateTime": dateTime,
                 "source": config.appName,
                 "version": config.appVersion,
                 "objectTags": ["tobacco", "cigarette"],
@@ -38,7 +37,6 @@ if (Meteor.isClient) {
             };
             var beerDrank = $("input[name='beer']").val();
             var beerEvent = {
-                "dateTime": dateTime,
                 "source": config.appName,
                 "version": config.appVersion,
                 "objectTags": ["alcohol", "beer"],
@@ -49,7 +47,6 @@ if (Meteor.isClient) {
             };
             var chipsEaten = $("input[name='chips']").val();
             var chipsEvent = {
-                "dateTime": dateTime,
                 "source": config.appName,
                 "version": config.appVersion,
                 "objectTags": ["food", "potato", "carbs", "chips"],
@@ -76,15 +73,37 @@ if (Meteor.isClient) {
             $(".showVizTemplate").attr("style","display: none;");
         },
         'click #viz': function () {
-            /*var url = oneself.objectTags(["self", "cigarette"])
-             .actionTags(["smoke"])
-             .count()
-             .barChart()
-             .url();
-             console.info(url);
-             window.location = url;*/
             $(".showVizTemplate").attr("style","display: block;");
             $(".logActivityTemplate").attr("style","display: none;");
+        }
+    });
+    Template.visualisations.event({
+        'click #smokeViz': function () {
+            var url = oneself.objectTags(["tobacco", "cigarette"])
+                .actionTags(["smoke"])
+                .sum(total)
+                .barChart()
+                .url();
+            console.info(url);
+            window.location = url;
+        },
+        'click #beerViz': function () {
+            var url = oneself.objectTags(["tobacco", "cigarette"])
+                .actionTags(["drink"])
+                .sum(volume)
+                .barChart()
+                .url();
+            console.info(url);
+            window.location = url;
+        },
+        'click #chipsViz': function () {
+            var url = oneself.objectTags(["food", "potato", "carbs", "chips"])
+                .actionTags(["eat"])
+                .sum(volume)
+                .barChart()
+                .url();
+            console.info(url);
+            window.location = url;
         }
     });
 }

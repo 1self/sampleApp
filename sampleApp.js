@@ -11,7 +11,7 @@ if (Meteor.isClient) {
     Meteor.startup(function () {
         if (window.localStorage.streamId === undefined) {
             console.info("registering stream.");
-                oneself.registerStream(function (stream) {
+            oneself.registerStream(function (stream) {
                 console.info(JSON.stringify(stream));
                 window.localStorage.streamId = stream.streamid;
                 window.localStorage.readToken = stream.readToken;
@@ -25,7 +25,6 @@ if (Meteor.isClient) {
     Template.habits.events({
         'click #logActivity': function () {
             var cigarettesSmoked = $("input[name='cigarettes']").val();
-            var dateTime = moment();
             var smokeEvent = {
                 "source": config.appName,
                 "version": config.appVersion,
@@ -56,25 +55,25 @@ if (Meteor.isClient) {
                 }
             };
             var event = [smokeEvent, beerEvent, chipsEvent];
-            oneself.send(smokeEvent, function () {
+            oneself.sendEvent(smokeEvent, function () {
                 console.info("Event logged");
             });
-            oneself.send(beerEvent, function () {
+            oneself.sendEvent(beerEvent, function () {
                 console.info("Event logged");
             });
-            oneself.send(chipsEvent, function () {
+            oneself.sendEvent(chipsEvent, function () {
                 console.info("Event logged");
             });
         }
     });
     Template.footer.events({
         'click #log': function () {
-            $(".logActivityTemplate").attr("style","display: block;");
-            $(".showVizTemplate").attr("style","display: none;");
+            $(".logActivityTemplate").attr("style", "display: block;");
+            $(".showVizTemplate").attr("style", "display: none;");
         },
         'click #viz': function () {
-            $(".showVizTemplate").attr("style","display: block;");
-            $(".logActivityTemplate").attr("style","display: none;");
+            $(".showVizTemplate").attr("style", "display: block;");
+            $(".logActivityTemplate").attr("style", "display: none;");
         }
     });
     Template.visualisations.event({
@@ -88,7 +87,7 @@ if (Meteor.isClient) {
             window.location = url;
         },
         'click #beerViz': function () {
-            var url = oneself.objectTags(["tobacco", "cigarette"])
+            var url = oneself.objectTags(["alcohol", "beer"])
                 .actionTags(["drink"])
                 .sum(volume)
                 .barChart()

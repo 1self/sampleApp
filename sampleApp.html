@@ -5,8 +5,12 @@
 
 <body>
 <div class="heading">1self heart disease</div>
-{{> habits}}
-
+<div class="logActivityTemplate">
+    {{> habits}}
+</div>
+<div class="showVizTemplate" style="display: none;">
+    {{> visualisations}}
+</div>
 </body>
 
 <template name="habits">
@@ -36,13 +40,38 @@
             </div>
         </div>
         <button id="logActivity" class="btn-default log">Log</button>
-        <div class="center footer">
+        {{> footer}}
+    </div>
+</template>
+
+<template name="visualisations">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-lg-12">
+                <div id="smoke" class="activityLabel">cigarettes</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-8 col-lg-12">
+                <div id="beer" class="activityLabel">beer(ml)</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-8 col-lg-12">
+                <div id="chips" class="activityLabel">chips(g)</div>
+            </div>
+        </div>
+        {{> footer}}
+    </div>
+</template>
+
+<template name="footer">
+    <div class="footer">
         <div id="log" class="col-xs-2 col-sm-2 col-lg-2">
-               <div class="glyphicon glyphicon-th-list"></div>
-            </div>
+            <div class="glyphicon glyphicon-th-list"></div>
+        </div>
         <div id="viz" class="col-xs-2 col-sm-2 col-lg-2">
-               <div class="glyphicon glyphicon-signal"></div>
-            </div>
+            <div class="glyphicon glyphicon-signal"></div>
         </div>
     </div>
 </template>

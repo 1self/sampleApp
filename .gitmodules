@@ -1,0 +1,3 @@
+[submodule "lib/js/1self.js"]
+	path = lib/js/1self.js
+	url = git@github.com:1self/1self.js.git

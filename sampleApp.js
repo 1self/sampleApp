@@ -58,7 +58,7 @@ if (Meteor.isClient) {
                     "volume": parseInt(chipsEaten)
                 }
             };
-//            var event = [smokeEvent, beerEvent, chipsEvent];
+            var event = [smokeEvent, beerEvent, chipsEvent];
             oneself.send(smokeEvent, function () {
                 console.info("Event logged");
             });
@@ -68,15 +68,23 @@ if (Meteor.isClient) {
             oneself.send(chipsEvent, function () {
                 console.info("Event logged");
             });
+        }
+    });
+    Template.footer.events({
+        'click #log': function () {
+            $(".logActivityTemplate").attr("style","display: block;");
+            $(".showVizTemplate").attr("style","display: none;");
         },
         'click #viz': function () {
-            var url = oneself.objectTags(["self", "cigarette"])
-                .actionTags(["smoke"])
-                .count()
-                .barChart()
-                .url();
-            console.info(url);
-            window.location = url;
+            /*var url = oneself.objectTags(["self", "cigarette"])
+             .actionTags(["smoke"])
+             .count()
+             .barChart()
+             .url();
+             console.info(url);
+             window.location = url;*/
+            $(".showVizTemplate").attr("style","display: block;");
+            $(".logActivityTemplate").attr("style","display: none;");
         }
     });
 }

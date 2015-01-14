@@ -23,16 +23,49 @@ if (Meteor.isClient) {
     });
 
     Template.habits.events({
-        'click #smoke': function () {
-            var event = {
-                "dateTime": moment(),
+        'click #logActivity': function () {
+            var cigarettesSmoked = $("input[name='cigarettes']").val();
+            var dateTime = moment();
+            var smokeEvent = {
+                "dateTime": dateTime,
                 "source": config.appName,
                 "version": config.appVersion,
                 "objectTags": ["self", "cigarette"],
                 "actionTags": ["smoke"],
-                "properties": {}
+                "properties": {
+                    "total": parseInt(cigarettesSmoked)
+                }
             };
-            oneself.send(event, function () {
+            var beerDrank = $("input[name='beer']").val();
+            var beerEvent = {
+                "dateTime": dateTime,
+                "source": config.appName,
+                "version": config.appVersion,
+                "objectTags": ["self", "beer"],
+                "actionTags": ["drink"],
+                "properties": {
+                    "volume": parseInt(beerDrank)
+                }
+            };
+            var chipsEaten = $("input[name='chips']").val();
+            var chipsEvent = {
+                "dateTime": dateTime,
+                "source": config.appName,
+                "version": config.appVersion,
+                "objectTags": ["self", "chips"],
+                "actionTags": ["eat"],
+                "properties": {
+                    "volume": parseInt(chipsEaten)
+                }
+            };
+//            var event = [smokeEvent, beerEvent, chipsEvent];
+            oneself.send(smokeEvent, function () {
+                console.info("Event logged");
+            });
+            oneself.send(beerEvent, function () {
+                console.info("Event logged");
+            });
+            oneself.send(chipsEvent, function () {
                 console.info("Event logged");
             });
         },

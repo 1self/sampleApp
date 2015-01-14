@@ -9,16 +9,17 @@ body {
 
 .container {
     width: 100%;
-    background: #f1faff;
+    background: #D5D5FF;
     font-size: 3em;
 }
 
 .row {
     padding: 0.2em 0.2em;
+    border: 1px solid grey;
 }
 
 .heading {
-    background: #005F6B;
+    background: #3635AD;
     color: white;
     text-align: center;
     width: 100%;
@@ -27,6 +28,24 @@ body {
     padding: 0.5em 0em;
 }
 
-#smoke, #viz {
+input {
+    width: 100%;
+    margin-top: 17%;
+}
+
+.log {
+    border-radius: 21px;
+    padding: 4%;
+    margin: 3% 30%;
+    width: 37%;
+}
+
+.activityLabel{
     line-height: 3em;
+}
+
+.footer {
+    margin-top: 78%;/*
+    position: absolute;
+    bottom: 0;*/
 }

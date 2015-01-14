@@ -4,7 +4,7 @@
 </head>
 
 <body>
-<div class="heading">Track your habits</div>
+<div class="heading">1self heart disease</div>
 {{> habits}}
 
 </body>
@@ -12,11 +12,36 @@
 <template name="habits">
     <div class="container">
         <div class="row">
-            <div class="col-xs-10 col-sm-10 col-lg-10">
-                <div id="smoke">Smoked a cigarette</div>
+            <div class="col-xs-8 col-sm-8 col-lg-8">
+                <div id="smoke" class="activityLabel">cigarettes</div>
             </div>
-            <div id="viz" class="col-xs-2 col-sm-2 col-lg-2">
-                <div class="glyphicon glyphicon-signal"></div>
+            <div class="col-xs-4 col-sm-4 col-lg-4">
+                <input type="number" name="cigarettes"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-8 col-sm-8 col-lg-8">
+                <div id="beer" class="activityLabel">beer(ml)</div>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-lg-4">
+                <input type="number" name="beer"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-8 col-sm-8 col-lg-8">
+                <div id="chips" class="activityLabel">chips(g)</div>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-lg-4">
+                <input type="number" name="chips"/>
+            </div>
+        </div>
+        <button id="logActivity" class="btn-default log">Log</button>
+        <div class="center footer">
+        <div id="log" class="col-xs-2 col-sm-2 col-lg-2">
+               <div class="glyphicon glyphicon-th-list"></div>
+            </div>
+        <div id="viz" class="col-xs-2 col-sm-2 col-lg-2">
+               <div class="glyphicon glyphicon-signal"></div>
             </div>
         </div>
     </div>

@@ -76,11 +76,11 @@ if (Meteor.isClient) {
             $(".logActivityTemplate").attr("style", "display: none;");
         }
     });
-    Template.visualisations.event({
+    Template.visualisations.events({
         'click #smokeViz': function () {
             var url = oneself.objectTags(["tobacco", "cigarette"])
                 .actionTags(["smoke"])
-                .sum(total)
+                .sum("total")
                 .barChart()
                 .url();
             console.info(url);
@@ -89,7 +89,7 @@ if (Meteor.isClient) {
         'click #beerViz': function () {
             var url = oneself.objectTags(["alcohol", "beer"])
                 .actionTags(["drink"])
-                .sum(volume)
+                .sum("volume")
                 .barChart()
                 .url();
             console.info(url);
@@ -98,7 +98,7 @@ if (Meteor.isClient) {
         'click #chipsViz': function () {
             var url = oneself.objectTags(["food", "potato", "carbs", "chips"])
                 .actionTags(["eat"])
-                .sum(volume)
+                .sum("volume")
                 .barChart()
                 .url();
             console.info(url);

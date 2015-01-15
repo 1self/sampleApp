@@ -1,8 +1,8 @@
 if (Meteor.isClient) {
 
     var config = {
-        appId: "abc",
-        appSecret: "123",
+        appId: "app-id-6067ea8c031f56db3f0180502128aa4b",
+        appSecret: "app-secret-56950d1747416435ddb76c258d0d48daa4cd21f3e1a87c4ca6fe5b318ab143a3",
         "appName": "co.1self.sampleApp",
         "appVersion": "1.1.1"
     };
@@ -63,8 +63,8 @@ if (Meteor.isClient) {
             $(".showVizTemplate").attr("style", "display: none;");
             $(".logActivityTemplate").attr("style", "display: none;");
             $("#vizIframe").attr('src', url);
-            $("#vizIframe").attr('height', screen.height);
-            $("#vizIframe").attr('width', screen.width);
+            $("#vizIframe").attr('height', "100%");
+            $("#vizIframe").attr('width', "100%");
         }
     });
 }

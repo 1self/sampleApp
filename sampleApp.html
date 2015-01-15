@@ -1,76 +1,57 @@
 <head>
     <title>sampleApp</title>
     <script src="client/lib/1self.js/src/1self.js" type="javascript"></script>
+
 </head>
 
 <body>
 <div class="heading">1self heart disease</div>
-<div class="logActivityTemplate">
-    {{> habits}}
-</div>
-<div class="showVizTemplate" style="display: none;">
-    {{> visualisations}}
+<div class="container fullHeight">
+    <div class="logActivityTemplate fullHeight">
+        {{> habits}}
+    </div>
+    <div class="showVizTemplate fullHeight" style="display: none;">
+        {{> selectVisualisations}}
+    </div>
+    <div class="vizTemplate fullHeight" style="display: none;">
+        {{> visualisation}}
+    </div>
 </div>
 </body>
 
 <template name="habits">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-8 col-sm-8 col-lg-8">
-                <div id="smoke" class="activityLabel">cigarettes</div>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-lg-4">
-                <input type="number" name="cigarettes"/>
-            </div>
+    <div class="row">
+        <div class="col-xs-8 col-sm-8 col-lg-8">
+            <div id="beer" class="activityLabel">beer(ml)</div>
         </div>
-        <div class="row">
-            <div class="col-xs-8 col-sm-8 col-lg-8">
-                <div id="beer" class="activityLabel">beer(ml)</div>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-lg-4">
-                <input type="number" name="beer"/>
-            </div>
+        <div class="col-xs-4 col-sm-4 col-lg-4">
+            <input type="number" name="beer"/>
         </div>
-        <div class="row">
-            <div class="col-xs-8 col-sm-8 col-lg-8">
-                <div id="chips" class="activityLabel">chips(g)</div>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-lg-4">
-                <input type="number" name="chips"/>
-            </div>
-        </div>
-        <button id="logActivity" class="btn-default log">Log</button>
-        {{> footer}}
     </div>
+    <button id="logActivity" class="btn-default log">Log</button>
+    {{> footer}}
 </template>
 
-<template name="visualisations">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-lg-12">
-                <div id="smokeViz" class="activityLabel">cigarettes</div>
-            </div>
+<template name="selectVisualisations">
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-lg-12">
+            <div id="beerViz" class="activityLabel">beer(ml)</div>
         </div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-8 col-lg-12">
-                <div id="beerViz" class="activityLabel">beer(ml)</div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-8 col-lg-12">
-                <div id="chipsViz" class="activityLabel">chips(g)</div>
-            </div>
-        </div>
-        {{> footer}}
     </div>
+    {{> footer}}
+</template>
+
+<template name="visualisation">
+    <iframe id="vizIframe" src="" frameborder="0" scrolling="no"></iframe>
+    {{> footer}}
 </template>
 
 <template name="footer">
     <div class="footer">
-        <div id="log" class="col-xs-2 col-sm-2 col-lg-2">
+        <div id="log" class="nav-icons col-xs-2 col-sm-2 col-lg-2">
             <div class="glyphicon glyphicon-th-list"></div>
         </div>
-        <div id="viz" class="col-xs-2 col-sm-2 col-lg-2">
+        <div id="selectViz" class="nav-icons col-xs-2 col-sm-2 col-lg-2">
             <div class="glyphicon glyphicon-signal"></div>
         </div>
     </div>

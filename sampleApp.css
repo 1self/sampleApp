@@ -1,4 +1,7 @@
 /* CSS declarations go here */
+html, body, .fullHeight {
+    height: 100%;
+}
 
 body {
     max-width: 768px;
@@ -40,12 +43,24 @@ input {
     width: 37%;
 }
 
-.activityLabel{
+.activityLabel {
     line-height: 3em;
 }
 
 .footer {
-    margin-top: 78%;/*
-    position: absolute;
-    bottom: 0;*/
+    position: fixed;
+    bottom: 0;
+    left: 45%;
+}
+
+#vizIframe {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.nav-icons {
+    width: 100px;
+    height: 68px;
+    overflow: hidden;
 }

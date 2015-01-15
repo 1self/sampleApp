@@ -6,7 +6,6 @@ if (Meteor.isClient) {
         "appName": "co.1self.sampleApp",
         "appVersion": "1.1.1"
     };
-
     var oneself = new lib1self(config);
     Meteor.startup(function () {
         if (window.localStorage.streamId === undefined) {
@@ -24,16 +23,6 @@ if (Meteor.isClient) {
 
     Template.habits.events({
         'click #logActivity': function () {
-            var cigarettesSmoked = $("input[name='cigarettes']").val();
-            var smokeEvent = {
-                "source": config.appName,
-                "version": config.appVersion,
-                "objectTags": ["tobacco", "cigarette"],
-                "actionTags": ["smoke"],
-                "properties": {
-                    "total": parseInt(cigarettesSmoked)
-                }
-            };
             var beerDrank = $("input[name='beer']").val();
             var beerEvent = {
                 "source": config.appName,
@@ -44,48 +33,25 @@ if (Meteor.isClient) {
                     "volume": parseInt(beerDrank)
                 }
             };
-            var chipsEaten = $("input[name='chips']").val();
-            var chipsEvent = {
-                "source": config.appName,
-                "version": config.appVersion,
-                "objectTags": ["food", "potato", "carbs", "chips"],
-                "actionTags": ["eat"],
-                "properties": {
-                    "volume": parseInt(chipsEaten)
-                }
-            };
-            var event = [smokeEvent, beerEvent, chipsEvent];
-            oneself.sendEvent(smokeEvent, function () {
-                console.info("Event logged");
-            });
             oneself.sendEvent(beerEvent, function () {
                 console.info("Event logged");
             });
-            oneself.sendEvent(chipsEvent, function () {
-                console.info("Event logged");
-            });
+            $("input[name='beer']").val("");
         }
     });
     Template.footer.events({
         'click #log': function () {
             $(".logActivityTemplate").attr("style", "display: block;");
             $(".showVizTemplate").attr("style", "display: none;");
+            $(".vizTemplate").attr("style", "display: none;");
         },
-        'click #viz': function () {
+        'click #selectViz': function () {
             $(".showVizTemplate").attr("style", "display: block;");
             $(".logActivityTemplate").attr("style", "display: none;");
+            $(".vizTemplate").attr("style", "display: none;");
         }
     });
-    Template.visualisations.events({
-        'click #smokeViz': function () {
-            var url = oneself.objectTags(["tobacco", "cigarette"])
-                .actionTags(["smoke"])
-                .sum("total")
-                .barChart()
-                .url();
-            console.info(url);
-            window.location = url;
-        },
+    Template.selectVisualisations.events({
         'click #beerViz': function () {
             var url = oneself.objectTags(["alcohol", "beer"])
                 .actionTags(["drink"])
@@ -93,16 +59,12 @@ if (Meteor.isClient) {
                 .barChart()
                 .url();
             console.info(url);
-            window.location = url;
-        },
-        'click #chipsViz': function () {
-            var url = oneself.objectTags(["food", "potato", "carbs", "chips"])
-                .actionTags(["eat"])
-                .sum("volume")
-                .barChart()
-                .url();
-            console.info(url);
-            window.location = url;
+            $(".vizTemplate").attr("style", "display: block;");
+            $(".showVizTemplate").attr("style", "display: none;");
+            $(".logActivityTemplate").attr("style", "display: none;");
+            $("#vizIframe").attr('src', url);
+            $("#vizIframe").attr('height', screen.height);
+            $("#vizIframe").attr('width', screen.width);
         }
     });
 }

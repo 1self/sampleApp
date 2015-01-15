@@ -21,7 +21,7 @@ if (Meteor.isClient) {
         }
     });
 
-    Template.habits.events({
+    Template.logging.events({
         'click #logActivity': function () {
             var beerDrank = $("input[name='beer']").val();
             var beerEvent = {
@@ -51,7 +51,7 @@ if (Meteor.isClient) {
             $(".vizTemplate").attr("style", "display: none;");
         }
     });
-    Template.selectVisualisations.events({
+    Template.selectVisualizations.events({
         'click #beerViz': function () {
             var url = oneself.objectTags(["alcohol", "beer"])
                 .actionTags(["drink"])

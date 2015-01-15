@@ -11,10 +11,10 @@
         {{> logging}}
     </div>
     <div class="showVizTemplate fullHeight" style="display: none;">
-        {{> selectVisualisations}}
+        {{> selectVisualizations}}
     </div>
     <div class="vizTemplate fullHeight" style="display: none;">
-        {{> visualisation}}
+        {{> visualization}}
     </div>
 </div>
 </body>
@@ -32,7 +32,7 @@
     {{> footer}}
 </template>
 
-<template name="selectVisualisations">
+<template name="selectVisualizations">
     <div class="row">
         <div class="col-xs-12 col-sm-8 col-lg-12">
             <div id="beerViz" class="activityLabel">beer(ml)</div>
@@ -41,7 +41,7 @@
     {{> footer}}
 </template>
 
-<template name="visualisation">
+<template name="visualization">
     <iframe id="vizIframe" src="" frameborder="0" scrolling="no"></iframe>
     {{> footer}}
 </template>

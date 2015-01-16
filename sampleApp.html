@@ -8,7 +8,7 @@
 <div class="heading">1self drunk</div>
 <div class="container fullHeight">
     <div class="logActivityTemplate fullHeight">
-        {{> habits}}
+        {{> logActivity}}
     </div>
     <div class="showVizTemplate fullHeight" style="display: none;">
         {{> selectVisualisations}}
@@ -19,7 +19,7 @@
 </div>
 </body>
 
-<template name="habits">
+<template name="logActivity">
     <div class="row">
         <div class="col-xs-8 col-sm-8 col-lg-8">
             <div id="beer" class="activityLabel">beer(ml)</div>
@@ -48,14 +48,14 @@
 
 <template name="footer">
     <div class="footer">
-        <div id="log" class="nav-links col-xs-2 col-sm-2 col-lg-2">
+        <div id="displayLogActivityTemplate" class="nav-links col-xs-2 col-sm-2 col-lg-2">
             <div class="nav-icon glyphicon glyphicon-th-list"></div>
         </div>
-        <div id="selectViz" class="nav-links col-xs-2 col-sm-2 col-lg-2">
+        <div id="displaySelectVizTemplate" class="nav-links col-xs-2 col-sm-2 col-lg-2">
             <div class="nav-icon glyphicon glyphicon-signal"></div>
         </div>
         <div id="pendingEvents" class="col-xs-8 col-sm-8 col-lg-8">
-            Pending Events: {{pendingEvents}}
+            Pending Events: {{pendingEventsCount}}
         </div>
     </div>
 </template>

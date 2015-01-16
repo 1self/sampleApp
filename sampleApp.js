@@ -6,22 +6,26 @@ if (Meteor.isClient) {
         "appVersion": "1.1.1"
     };
     var oneself = new Lib1self(config);
-    Session.setDefault("pendingEvents", oneself.pendingEvents());
+    Session.setDefault("pendingEventsCount", oneself.pendingEventsCount());
     Meteor.startup(function () {
-        if (window.localStorage.streamId === undefined) {
+        var isStreamRegistered = function () {
+            return window.localStorage.streamId !== undefined;
+        };
+        var storeStreamDetails = function (stream) {
+            window.localStorage.streamId = stream.streamid;
+            window.localStorage.readToken = stream.readToken;
+            window.localStorage.writeToken = stream.writeToken;
+        };
+
+        if (!isStreamRegistered()) {
             console.info("registering stream.");
             oneself.registerStream(function (stream) {
-                console.info(JSON.stringify(stream));
-                window.localStorage.streamId = stream.streamid;
-                window.localStorage.readToken = stream.readToken;
-                window.localStorage.writeToken = stream.writeToken;
+                storeStreamDetails(stream);
             });
-        } else {
-            console.info("already registered.");
         }
     });
 
-    Template.habits.events({
+    Template.logActivity.events({
         'click #logActivity': function () {
             var beerInput = $("input[name='beer']");
             var beerDrank = parseInt(beerInput.val());
@@ -39,28 +43,31 @@ if (Meteor.isClient) {
                     "volume": beerDrank
                 }
             };
-            oneself.onsendsuccess = function () {
-                Session.set("pendingEvents", oneself.pendingEvents());
+            var updatePendingEventsCount = function () {
+                Session.set("pendingEventsCount", oneself.pendingEventsCount());
             };
-            oneself.sendEvent(beerEvent, window.localStorage.streamId, window.localStorage.writeToken, function () {
-                Session.set("pendingEvents", oneself.pendingEvents());
-                console.info("Event logged");
-            });
+            oneself.onsendsuccess = function () {
+                updatePendingEventsCount();
+            };
+            var onqueuesuccess = function () {
+                updatePendingEventsCount();
+            };
+            oneself.sendEvent(beerEvent, window.localStorage.streamId, window.localStorage.writeToken, onqueuesuccess);
             beerInput.val("");
         }
     });
     Template.footer.helpers({
-        pendingEvents: function () {
-            return Session.get("pendingEvents");
+        pendingEventsCount: function () {
+            return Session.get("pendingEventsCount");
         }
     });
     Template.footer.events({
-        'click #log': function () {
+        'click #displayLogActivityTemplate': function () {
             $(".logActivityTemplate").show();
             $(".showVizTemplate").hide();
             $(".vizTemplate").hide();
         },
-        'click #selectViz': function () {
+        'click #displaySelectVizTemplate': function () {
             $(".showVizTemplate").show();
             $(".logActivityTemplate").hide();
             $(".vizTemplate").hide();

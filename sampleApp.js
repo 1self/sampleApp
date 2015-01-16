@@ -1,5 +1,4 @@
 if (Meteor.isClient) {
-
     var config = {
         appId: "app-id-6067ea8c031f56db3f0180502128aa4b",
         appSecret: "app-secret-56950d1747416435ddb76c258d0d48daa4cd21f3e1a87c4ca6fe5b318ab143a3",
@@ -7,6 +6,7 @@ if (Meteor.isClient) {
         "appVersion": "1.1.1"
     };
     var oneself = new Lib1self(config);
+    Session.setDefault("pendingEvents", oneself.pendingEvents());
     Meteor.startup(function () {
         if (window.localStorage.streamId === undefined) {
             console.info("registering stream.");
@@ -23,32 +23,44 @@ if (Meteor.isClient) {
 
     Template.habits.events({
         'click #logActivity': function () {
-            var beerDrank = $("input[name='beer']").val();
+            var beerInput = $("input[name='beer']");
+            var beerDrank = parseInt(beerInput.val());
+            if (!beerDrank) {
+                beerInput.addClass("validation-error");
+                return;
+            }
+            beerInput.removeClass("validation-error");
             var beerEvent = {
                 "source": config.appName,
                 "version": config.appVersion,
                 "objectTags": ["alcohol", "beer"],
                 "actionTags": ["drink"],
                 "properties": {
-                    "volume": parseInt(beerDrank)
+                    "volume": beerDrank
                 }
             };
             oneself.sendEvent(beerEvent, function () {
+                Session.set("pendingEvents", oneself.pendingEvents());
                 console.info("Event logged");
             });
-            $("input[name='beer']").val("");
+            beerInput.val("");
+        }
+    });
+    Template.footer.helpers({
+        pendingEvents: function () {
+            return Session.get("pendingEvents");
         }
     });
     Template.footer.events({
         'click #log': function () {
-            $(".logActivityTemplate").attr("style", "display: block;");
-            $(".showVizTemplate").attr("style", "display: none;");
-            $(".vizTemplate").attr("style", "display: none;");
+            $(".logActivityTemplate").show();
+            $(".showVizTemplate").hide();
+            $(".vizTemplate").hide();
         },
         'click #selectViz': function () {
-            $(".showVizTemplate").attr("style", "display: block;");
-            $(".logActivityTemplate").attr("style", "display: none;");
-            $(".vizTemplate").attr("style", "display: none;");
+            $(".showVizTemplate").show();
+            $(".logActivityTemplate").hide();
+            $(".vizTemplate").hide();
         }
     });
     Template.selectVisualisations.events({
@@ -59,12 +71,10 @@ if (Meteor.isClient) {
                 .barChart()
                 .url();
             console.info(url);
-            $(".vizTemplate").attr("style", "display: block;");
-            $(".showVizTemplate").attr("style", "display: none;");
-            $(".logActivityTemplate").attr("style", "display: none;");
+            $(".vizTemplate").show();
+            $(".showVizTemplate").hide();
+            $(".logActivityTemplate").hide();
             $("#vizIframe").attr('src', url);
-            $("#vizIframe").attr('height', "100%");
-            $("#vizIframe").attr('width', "100%");
         }
     });
 }

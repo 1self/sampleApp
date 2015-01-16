@@ -39,7 +39,10 @@ if (Meteor.isClient) {
                     "volume": beerDrank
                 }
             };
-            oneself.sendEvent(beerEvent, window.localStorage.writeToken, function () {
+            oneself.onsendsuccess = function () {
+                Session.set("pendingEvents", oneself.pendingEvents());
+            };
+            oneself.sendEvent(beerEvent, window.localStorage.streamId, window.localStorage.writeToken, function () {
                 Session.set("pendingEvents", oneself.pendingEvents());
                 console.info("Event logged");
             });

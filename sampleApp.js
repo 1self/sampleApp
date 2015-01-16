@@ -39,7 +39,7 @@ if (Meteor.isClient) {
                     "volume": beerDrank
                 }
             };
-            oneself.sendEvent(beerEvent, function () {
+            oneself.sendEvent(beerEvent, window.localStorage.writeToken, function () {
                 Session.set("pendingEvents", oneself.pendingEvents());
                 console.info("Event logged");
             });
@@ -65,7 +65,8 @@ if (Meteor.isClient) {
     });
     Template.selectVisualisations.events({
         'click #beerViz': function () {
-            var url = oneself.objectTags(["alcohol", "beer"])
+            var url = oneself.visualize(window.localStorage.streamId, window.localStorage.readToken)
+                .objectTags(["alcohol", "beer"])
                 .actionTags(["drink"])
                 .sum("volume")
                 .barChart()

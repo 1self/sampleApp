@@ -6,7 +6,7 @@ if (Meteor.isClient) {
         "appName": "co.1self.sampleApp",
         "appVersion": "1.1.1"
     };
-    var oneself = new lib1self(config);
+    var oneself = new Lib1self(config);
     Meteor.startup(function () {
         if (window.localStorage.streamId === undefined) {
             console.info("registering stream.");

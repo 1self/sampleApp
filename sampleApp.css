@@ -20,7 +20,7 @@ body {
 }
 
 .spacer {
-    padding: 0.2em 0.2em;
+    padding: 0.5em 0.2em;
 }
 
 .heading {
@@ -52,7 +52,6 @@ input {
 }
 
 .activityLabel {
-    line-height: 3em;
 }
 
 .footer {
@@ -121,7 +120,6 @@ input {
 
 
 .logvalue{
-    margin-top: 0.6em;
 }
 
 #pending-events{

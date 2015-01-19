@@ -1,7 +1,8 @@
 <head>
     <title>sampleApp</title>
     <script src="client/lib/1self.js/src/1self.js" type="javascript"></script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=0"/>
 </head>
 
 <body>
@@ -20,7 +21,7 @@
 </body>
 
 <template name="logging">
-    <div class="row">
+    <div class="row spacer">
         <div class="col-xs-8 col-sm-8 col-lg-8">
             <div id="beer" class="activityLabel">beer(ml)</div>
         </div>
@@ -48,14 +49,18 @@
 
 <template name="footer">
     <div class="footer">
-        <div id="displayLogActivityTemplate" class="nav-links col-xs-2 col-sm-2 col-lg-2">
-            <div class="nav-icon glyphicon glyphicon-th-list"></div>
+        <div class="row footer-element-container">
+            <div id="displayLogActivityTemplate" class="nav-links col-xs-2 col-sm-2 col-lg-2">
+                <div class="nav-icon glyphicon glyphicon-th-list"></div>
+            </div>
+            <div id="displaySelectVizTemplate" class="nav-links col-xs-2 col-sm-2 col-lg-2">
+                <div class="nav-icon glyphicon glyphicon-signal"></div>
+            </div>
         </div>
-        <div id="displaySelectVizTemplate" class="nav-links col-xs-2 col-sm-2 col-lg-2">
-            <div class="nav-icon glyphicon glyphicon-signal"></div>
-        </div>
-        <div id="pendingEvents" class="col-xs-8 col-sm-8 col-lg-8">
-            Pending Events: {{pendingEventsCount}}
+        <div class="row">
+            <div id="pendingEvents" class="col-xs-12 col-sm-12 col-lg-12">
+                Pending Events: {{pendingEventsCount}}
+            </div>
         </div>
     </div>
 </template>

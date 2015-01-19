@@ -65,12 +65,10 @@ if (Meteor.isClient) {
         'click #displayLogActivityTemplate': function () {
             $(".logActivityTemplate").show();
             $(".showVizTemplate").hide();
-            $(".vizTemplate").hide();
         },
         'click #displaySelectVizTemplate': function () {
             $(".showVizTemplate").show();
             $(".logActivityTemplate").hide();
-            $(".vizTemplate").hide();
         }
     });
     Template.selectVisualizations.events({
@@ -82,10 +80,8 @@ if (Meteor.isClient) {
                 .barChart()
                 .url();
             console.info(url);
-            $(".vizTemplate").show();
-            $(".showVizTemplate").hide();
             $(".logActivityTemplate").hide();
-            $("#vizIframe").attr('src', url);
+            window.open(url);
         }
     });
 }

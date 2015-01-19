@@ -81,7 +81,7 @@ if (Meteor.isClient) {
                 .url();
             console.info(url);
             $(".logActivityTemplate").hide();
-            window.open(url);
+            window.open(url, "_system", "location=no");
         }
     });
 }

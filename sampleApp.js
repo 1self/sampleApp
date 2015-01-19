@@ -1,70 +1,91 @@
 if (Meteor.isClient) {
-
     var config = {
         appId: "app-id-6067ea8c031f56db3f0180502128aa4b",
         appSecret: "app-secret-56950d1747416435ddb76c258d0d48daa4cd21f3e1a87c4ca6fe5b318ab143a3",
         "appName": "co.1self.sampleApp",
         "appVersion": "1.1.1"
     };
-    var oneself = new lib1self(config);
+    var oneself = new Lib1self(config);
+    Session.setDefault("pendingEventsCount", oneself.pendingEventsCount());
     Meteor.startup(function () {
-        if (window.localStorage.streamId === undefined) {
+        var isStreamRegistered = function () {
+            return window.localStorage.streamId !== undefined;
+        };
+        var storeStreamDetails = function (stream) {
+            window.localStorage.streamId = stream.streamid;
+            window.localStorage.readToken = stream.readToken;
+            window.localStorage.writeToken = stream.writeToken;
+        };
+
+        if (!isStreamRegistered()) {
             console.info("registering stream.");
             oneself.registerStream(function (stream) {
-                console.info(JSON.stringify(stream));
-                window.localStorage.streamId = stream.streamid;
-                window.localStorage.readToken = stream.readToken;
-                window.localStorage.writeToken = stream.writeToken;
+                storeStreamDetails(stream);
             });
-        } else {
-            console.info("already registered.");
         }
     });
 
     Template.logging.events({
         'click #logActivity': function () {
-            var beerDrank = $("input[name='beer']").val();
+            var beerInput = $("input[name='beer']");
+            var beerDrank = parseInt(beerInput.val());
+            if (!beerDrank) {
+                beerInput.addClass("validation-error");
+                return;
+            }
+            beerInput.removeClass("validation-error");
             var beerEvent = {
                 "source": config.appName,
                 "version": config.appVersion,
                 "objectTags": ["alcohol", "beer"],
                 "actionTags": ["drink"],
                 "properties": {
-                    "volume": parseInt(beerDrank)
+                    "volume": beerDrank
                 }
             };
-            oneself.sendEvent(beerEvent, function () {
-                console.info("Event logged");
-            });
-            $("input[name='beer']").val("");
+            var updatePendingEventsCount = function () {
+                Session.set("pendingEventsCount", oneself.pendingEventsCount());
+            };
+            oneself.onsendsuccess = function () {
+                updatePendingEventsCount();
+            };
+            var onqueuesuccess = function () {
+                updatePendingEventsCount();
+            };
+            oneself.sendEvent(beerEvent, window.localStorage.streamId, window.localStorage.writeToken, onqueuesuccess);
+            beerInput.val("");
+        }
+    });
+    Template.footer.helpers({
+        pendingEventsCount: function () {
+            return Session.get("pendingEventsCount");
         }
     });
     Template.footer.events({
-        'click #log': function () {
-            $(".logActivityTemplate").attr("style", "display: block;");
-            $(".showVizTemplate").attr("style", "display: none;");
-            $(".vizTemplate").attr("style", "display: none;");
+        'click #displayLogActivityTemplate': function () {
+            $(".logActivityTemplate").show();
+            $(".showVizTemplate").hide();
+            $(".vizTemplate").hide();
         },
-        'click #selectViz': function () {
-            $(".showVizTemplate").attr("style", "display: block;");
-            $(".logActivityTemplate").attr("style", "display: none;");
-            $(".vizTemplate").attr("style", "display: none;");
+        'click #displaySelectVizTemplate': function () {
+            $(".showVizTemplate").show();
+            $(".logActivityTemplate").hide();
+            $(".vizTemplate").hide();
         }
     });
     Template.selectVisualizations.events({
         'click #beerViz': function () {
-            var url = oneself.objectTags(["alcohol", "beer"])
+            var url = oneself.visualize(window.localStorage.streamId, window.localStorage.readToken)
+                .objectTags(["alcohol", "beer"])
                 .actionTags(["drink"])
                 .sum("volume")
                 .barChart()
                 .url();
             console.info(url);
-            $(".vizTemplate").attr("style", "display: block;");
-            $(".showVizTemplate").attr("style", "display: none;");
-            $(".logActivityTemplate").attr("style", "display: none;");
+            $(".vizTemplate").show();
+            $(".showVizTemplate").hide();
+            $(".logActivityTemplate").hide();
             $("#vizIframe").attr('src', url);
-            $("#vizIframe").attr('height', "100%");
-            $("#vizIframe").attr('width', "100%");
         }
     });
 }

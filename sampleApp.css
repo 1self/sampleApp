@@ -5,7 +5,8 @@ html, body, .fullHeight {
 body {
     margin: 0 auto;
     font-size: 16px;
-    background: #343838;
+    color: #30363e;
+    font-family: raleway, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .container {
@@ -21,13 +22,14 @@ body {
 }
 
 .heading {
-    background: #3635AD;
-    color: white;
+    background: #30363e;
+    color: #84c341;
     text-align: center;
     width: 100%;
     font-size: 2em;
-    font-weight: bold;
+    font-weight: 100;
     padding: 0.5em 0em;
+    letter-spacing: 0.04em;
 }
 
 input {

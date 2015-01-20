@@ -5,7 +5,7 @@ if (Meteor.isClient) {
         "appName": "co.1self.sampleApp",
         "appVersion": "1.1.1"
     };
-    var oneself = new Lib1self(config);
+    var oneself = new Lib1self(config, "sandbox");
     Session.setDefault("pendingEventsCount", oneself.pendingEventsCount());
     Meteor.startup(function () {
         var isStreamRegistered = function () {
@@ -78,6 +78,7 @@ if (Meteor.isClient) {
                 .actionTags(["drink"])
                 .sum("volume")
                 .barChart()
+                .backgroundColor("84c341")
                 .url();
             console.info(url);
             $(".logActivityTemplate").hide();

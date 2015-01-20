@@ -39,6 +39,8 @@ if (Meteor.isClient) {
             
             lib1self.sendEvent(beerEvent, window.localStorage.streamId, window.localStorage.writeToken, function(){});
             beerInput.val("");
+            console.log("Event sent:");
+            console.log(beerEvent);
         }
     });
     Template.footer.events({

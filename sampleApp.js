@@ -5,8 +5,7 @@ if (Meteor.isClient) {
         "appName": "co.1self.sampleApp",
         "appVersion": "1.1.1"
     };
-    var oneself = new Lib1self(config, "sandbox");
-    Session.setDefault("pendingEventsCount", oneself.pendingEventsCount());
+    var lib1self = new Lib1self(config, "sandbox");
     Meteor.startup(function () {
         var isStreamRegistered = function () {
             return window.localStorage.streamId !== undefined;
@@ -19,7 +18,7 @@ if (Meteor.isClient) {
 
         if (!isStreamRegistered()) {
             console.info("registering stream.");
-            oneself.registerStream(function (stream) {
+            lib1self.registerStream(function (stream) {
                 storeStreamDetails(stream);
             });
         }
@@ -28,37 +27,18 @@ if (Meteor.isClient) {
     Template.logging.events({
         'click #logActivity': function () {
             var beerInput = $("input[name='beer']");
-            var beerDrank = parseInt(beerInput.val());
-            if (!beerDrank) {
-                beerInput.addClass("validation-error");
-                return;
-            }
-            beerInput.removeClass("validation-error");
             var beerEvent = {
                 "source": config.appName,
                 "version": config.appVersion,
                 "objectTags": ["alcohol", "beer"],
                 "actionTags": ["drink"],
                 "properties": {
-                    "volume": beerDrank
+                    "volume": parseInt(beerInput.val())
                 }
             };
-            var updatePendingEventsCount = function () {
-                Session.set("pendingEventsCount", oneself.pendingEventsCount());
-            };
-            oneself.onsendsuccess = function () {
-                updatePendingEventsCount();
-            };
-            var onqueuesuccess = function () {
-                updatePendingEventsCount();
-            };
-            oneself.sendEvent(beerEvent, window.localStorage.streamId, window.localStorage.writeToken, onqueuesuccess);
+            
+            lib1self.sendEvent(beerEvent, window.localStorage.streamId, window.localStorage.writeToken, function(){});
             beerInput.val("");
-        }
-    });
-    Template.footer.helpers({
-        pendingEventsCount: function () {
-            return Session.get("pendingEventsCount");
         }
     });
     Template.footer.events({
@@ -73,7 +53,7 @@ if (Meteor.isClient) {
     });
     Template.selectVisualizations.events({
         'click #beerViz': function () {
-            var url = oneself.visualize(window.localStorage.streamId, window.localStorage.readToken)
+            var url = lib1self.visualize(window.localStorage.streamId, window.localStorage.readToken)
                 .objectTags(["alcohol", "beer"])
                 .actionTags(["drink"])
                 .sum("volume")

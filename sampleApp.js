@@ -5,23 +5,13 @@ if (Meteor.isClient) {
         "appName": "co.1self.sampleApp",
         "appVersion": "1.1.1"
     };
-    var lib1self = new Lib1self(config, "sandbox");
-    Meteor.startup(function () {
-        var isStreamRegistered = function () {
-            return window.localStorage.streamId !== undefined;
-        };
-        var storeStreamDetails = function (stream) {
-            window.localStorage.streamId = stream.streamid;
-            window.localStorage.readToken = stream.readToken;
-            window.localStorage.writeToken = stream.writeToken;
-        };
+    var lib1self = new Lib1selfClient(config, "sandbox");
 
-        if (!isStreamRegistered()) {
-            console.info("registering stream.");
-                lib1self.registerStream(function (err, stream) {
-                storeStreamDetails(stream);
-            });
-        }
+    var stream;
+    Meteor.startup(function () {
+        lib1self.fetchStream(function (err, response) {
+            stream = response;
+        });
     });
 
     Template.logging.events({
@@ -36,13 +26,14 @@ if (Meteor.isClient) {
                     "volume": parseInt(beerInput.val())
                 }
             };
-            
-            lib1self.sendEvent(beerEvent, window.localStorage.streamId, window.localStorage.writeToken, function(){});
+
+            lib1self.sendEvent(beerEvent, stream);
             beerInput.val("");
             console.log("Event sent:");
-            console.log(beerEvent);
+            console.log(beerEvent)
         }
     });
+
     Template.footer.events({
         'click #displayLogActivityTemplate': function () {
             $(".logActivityTemplate").show();
@@ -53,24 +44,20 @@ if (Meteor.isClient) {
             $(".logActivityTemplate").hide();
         }
     });
+
     Template.selectVisualizations.events({
         'click #beerViz': function () {
-            var url = lib1self.visualize(window.localStorage.streamId, window.localStorage.readToken)
+            var url = lib1self
                 .objectTags(["alcohol", "beer"])
                 .actionTags(["drink"])
                 .sum("volume")
                 .barChart()
                 .backgroundColor("84c341")
-                .url();
+                .url(stream);
             console.info(url);
             $(".logActivityTemplate").hide();
             window.open(url, "_system", "location=no");
         }
     });
-}
 
-if (Meteor.isServer) {
-    Meteor.startup(function () {
-        // code to run on server at startup
-    });
 }
